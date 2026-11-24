@@ -55,11 +55,13 @@ User question: ${message}`;
 
     const data = await response.json();
 
-    if (!response.ok) {
-      return res.status(502).json({
-        error: "AI provider returned an error."
-      });
-    }
+  if (!response.ok) {
+  console.error("Gemini API error:", response.status, data);
+
+  return res.status(502).json({
+    error: "AI provider returned an error."
+  });
+}
 
     const reply = data.candidates?.[0]?.content?.parts
       ?.map(p => p.text || "")
